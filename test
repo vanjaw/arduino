@@ -1,0 +1,26 @@
+const byte trig = 2;
+const byte ledPin = LED_BUILTIN;
+unsigned long counter = 0;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(trig, INPUT_PULLUP);
+  attachInterrupt(0, count, RISING);
+  Serial.begin(9600);
+}
+
+void loop() {
+Serial.print("Counter 0: ");
+Serial.println(counter);
+if (counter > 0) {
+  digitalWrite(ledPin, HIGH);
+  }
+else {
+  digitalWrite(ledPin, LOW);
+  }
+}
+
+
+void count() {
+  counter += 1;
+}
