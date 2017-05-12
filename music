@@ -1,0 +1,92 @@
+const byte trig = 2;
+const byte ledPin4 = 4;
+const byte ledPin5 = 5;
+const byte ledPin6 = 6;
+unsigned long counter = 0;
+unsigned long frequency = 0;
+unsigned long c0;
+unsigned long c1;
+
+void setup() {
+  pinMode(ledPin4, OUTPUT);
+  pinMode(ledPin5, OUTPUT);
+  pinMode(ledPin6, OUTPUT);  
+  pinMode(trig, INPUT_PULLUP);
+  attachInterrupt(0, count, RISING);
+  Serial.begin(9600);
+}
+
+void loop() {
+c0 = counter;
+delay(1000);
+c1 = counter;
+frequency = (c1-c0);
+counter = 0;
+Serial.print("Frequency: ");
+Serial.println(frequency);
+unsigned long f = frequency;
+if(interval(f,440,494)||interval(f,880,988)||interval(f,1760,1976)||interval(f,3520,3951)||interval(f,7040,7902)){
+digitalWrite(ledPin4, LOW); 
+digitalWrite(ledPin5, LOW);
+digitalWrite(ledPin6, LOW);
+}
+else if(interval(f,494,523)||interval(f,988,1046)||interval(f,1976,2093)||interval(f,3951,4186)||interval(f,7902,8372)){
+digitalWrite(ledPin4, LOW);
+digitalWrite(ledPin5, LOW);
+digitalWrite(ledPin6, HIGH);
+}
+else if (interval(f, 523, 587) || interval(f, 1046, 1175) || interval(f, 2093, 2349) || interval(f, 4186, 4699) || interval(f, 8372, 9397)){
+  digitalWrite(ledPin4, LOW); 
+  digitalWrite(ledPin5, HIGH);
+  digitalWrite(ledPin6, LOW);
+  }
+else if (interval(f, 587, 660) || interval(f, 1175, 1318) || interval(f, 2349, 2637) || interval(f, 4699, 5274) || interval(f, 9397, 10548)){
+  digitalWrite(ledPin4, LOW); 
+  digitalWrite(ledPin5, HIGH);
+  digitalWrite(ledPin6, HIGH);
+  }
+else if (interval(f, 660, 698) || interval(f, 1318, 1397) || interval(f, 2637, 2794) || interval(f, 5274, 5588) || interval(f, 10548, 11175)){
+  digitalWrite(ledPin4, HIGH); 
+  digitalWrite(ledPin5, LOW);
+  digitalWrite(ledPin6, LOW);
+  }
+else if (interval(f, 698, 784) || interval(f, 1397, 1568) || interval(f, 2794, 3136) || interval(f, 5588, 6272) || interval(f, 11175, 12543)){
+  digitalWrite(ledPin4, HIGH); 
+  digitalWrite(ledPin5, LOW);
+  digitalWrite(ledPin6, HIGH);
+  }
+else if (interval(f, 784, 880) || interval(f, 1568, 1760) || interval(f, 3136, 3520) || interval(f, 6272, 7040) || interval(f, 12543, 14080)){
+  digitalWrite(ledPin4, HIGH); 
+  digitalWrite(ledPin5, HIGH);
+  digitalWrite(ledPin6, LOW);
+  }
+else {
+  digitalWrite(ledPin4, HIGH); 
+  digitalWrite(ledPin5, HIGH);
+  digitalWrite(ledPin6, HIGH);
+  }
+}  
+
+bool interval(unsigned long comp, int mini, int maxi){
+  if ((comp >= mini) && (comp < maxi)){
+    return true;
+    }
+    else {
+    return false;
+    }
+  }
+
+void count() {
+  counter += 1;
+}
+
+
+
+/*
+if (frequency > 1000) {digitalWrite(ledPin4, HIGH);}
+else {  digitalWrite(ledPin4, LOW);}
+if (frequency > 2000) {digitalWrite(ledPin5, HIGH);}
+else {  digitalWrite(ledPin5, LOW);}
+if (frequency > 3000) {digitalWrite(ledPin6, HIGH);}
+else {  digitalWrite(ledPin6, LOW);}
+*/
